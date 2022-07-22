@@ -76,6 +76,11 @@ public class JobScheduleHelper {
                         // tx start
 
                         // 1、pre read
+                        // 假设现在时间是12:00:00 查询时间trigger_next_time小于12:00:05的任务
+                        // 任务时间小于11:59:55秒的，过期任务
+                        // 11:59:55 ~ 12:00:00的任务，立马触发
+                        // 12:00:00 到 12:00:05的，放到任务对列中
+
                         long nowTime = System.currentTimeMillis();
                         List<XxlJobInfo> scheduleList = XxlJobAdminConfig.getAdminConfig().getXxlJobInfoDao().scheduleJobQuery(nowTime + PRE_READ_MS, preReadCount);
                         if (scheduleList!=null && scheduleList.size()>0) {
